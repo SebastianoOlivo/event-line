@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>EventLine</title>
+        <meta name="description" content="Generator of event in a sort of time line">
+       <script src="js/angular.min.js"></script>
+         <link rel="stylesheet" href="css/screen.css">
+         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700,300|Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    </head>
+    <body class="clearfix" ng-app="eventLine" ng-controller="eventLineUpdateController as eventLineC">
+        <header class="site-header">
+            <h1>Event Line</h1>
+        </header>
+        <section class="event-line--generator">
+            <div>
+                <form class="add-title"  ng-submit="eventLineC.changeTitle()">
+                    <h2>Modifier le titre de votre ligne d'événement</h2>
+                    <p>
+                        <label for="title">Nom de votre ligne d'événement</label>
+                        <p>{{eventLineC.titles}}</p>
+                        <input type="text" name="title" ng-model="eventLineC.newTitle" >
+                    </p>
+                    <p>
+                        <input type="submit" name="submit" value="Modifier">
+                    </p>
+                </form>
+                <form class="add-event"  ng-submit="eventLineC.addEvent()">
+                    <h2>Ajoutez un nouvel événement</h2>
+                    <p>
+                        <label for="situation">Situation</label>
+                        <select id="situation" name="situation"  ng-model="eventLineC.newSituationEvent">
+                        <option style="display:none" value="">select a type</option>
+			  <option value="red">C'est la merde</option>
+			  <option value="purple">pas cool</option>
+			  <option value="blue">ok</option>
+			  <option value="yellow">tranquil</option>
+			  <option value="green" ng-selected="true">au paradis</option>
+		</select>
+                    </p> 
+                     <p >
+                        <label for="situation-prev">situation</label>
+                        <input type="hidden"  name="situation-prev"  ng-model="eventLineC.newPrevSituationEvent" ng-value="{{eventLineC.events[0].situation}}">
+                    </p> 
+                    <p>
+                        <label for="image">Image</label>
+                        <input type="url"  name="image"  placeholder="Lien d'une image" ng-model="eventLineC.newImageEvent" >
+                    </p>
+                    <p>
+                        <label for="title">Titre de l'événement</label>
+                        <input type="text" name="title"  placeholder="Titre de l'évènement"  ng-model="eventLineC.newTitleEvent">
+                    </p>
+                    <p>
+                        <label for="desc">Description de l'événement</label>
+                        <input type="text" name="desc"  placeholder="Description de l'événement"  ng-model="eventLineC.newDescriptionEvent">
+                    </p>
+                    <p>
+                        <input type="submit" name="submit" value="Ajouter">
+                    </p>
+                </form>
+            </div>
+            <div>
+                <form class="generate-code">
+                    <h2>Generez le code HTML</h2>
+                    <p>
+                        <label for="copy">Code à copier</label>
+                        <textarea cols="50" rows="10"></textarea>
+                    </p>
+                    <p>
+                        <input type="submit" name="submit" value="generer">
+                    </p>
+                </form>
+            </div>
+        </section>
+        <section class="event-line--container"  >
+
+            <header>
+                <h2>{{eventLineC.titles}}</h2>
+            </header>
+            <ul class="event-line clearfix">
+                <li class="event-line__event main-{{event.situation}} {{event.prevSituation}}"  ng-repeat="event in eventLineC.events">
+                <i class="icon"></i>
+                    <div class="image-holder">
+                        <img ng-src="{{event.img}}">
+                    </div>
+                    <div class="info-box">
+                        <h3 class="event-title">{{event.title}}</h3>
+                        <p class="description">{{event.description}}</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <script src="js/eventLineUpdateController.js"></script>
+        <script src="js/events.js"></script>
+        <script src="js/html2canvas.js"></script>
+    </body>
+</html>
